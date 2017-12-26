@@ -49,6 +49,11 @@ func DateFormat2(t time.Time, format string) string {
 	return t.Format(convertFormat(format))
 }
 
+func ParseDate(dateTimeStr string, format string) time.Time {
+	t, _ := time.Parse(convertFormat(format), dateTimeStr)
+	return t
+}
+
 func convertFormat(format string) string {
 	var goFormate = format
 	if strings.Contains(goFormate, "YYYY") {

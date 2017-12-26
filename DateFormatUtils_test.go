@@ -12,3 +12,8 @@ func TestDateFormat(t *testing.T) {
 func TestDateFormat2(t *testing.T) {
 	t.Log(DateFormat2(time.Now(), "yyyy-MM-dd HH:mm"))
 }
+
+func TestParseDate(t *testing.T) {
+	d := ParseDate("2017-12-26 00:10:00", "yyyy-MM-dd HH:mm:ss")
+	t.Log(d.Month())
+}
