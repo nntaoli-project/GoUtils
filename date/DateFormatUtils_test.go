@@ -1,4 +1,4 @@
-package GoUtils
+package date
 
 import (
 	"testing"
