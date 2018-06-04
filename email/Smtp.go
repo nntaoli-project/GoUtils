@@ -8,15 +8,16 @@ import (
 )
 
 type Sender struct {
+	Nick     string
 	Email    string
 	Password string
 	SmtpHost string
 	SmtpPort int
 }
 
-func createEmailBody(from, to, subject, content string, isHtml bool) []byte {
+func createEmailBody(sender Sender, to, subject, content string, isHtml bool) []byte {
 	header := make(map[string]string)
-	header["From"] = "<" + from + ">"
+	header["From"] = sender.Nick + " <" + sender.Email + ">"
 	header["To"] = to
 	header["Subject"] = subject
 
@@ -37,7 +38,7 @@ func SendEmail(sender Sender, to string, subject string, content string, isHtml 
 
 	auth := &SmtpAuth{"", sender.Email, sender.Password, sender.SmtpHost}
 	err := smtp.SendMail(fmt.Sprintf("%s:%d", sender.SmtpHost, sender.SmtpPort),
-		auth, sender.Email, []string{to}, createEmailBody(sender.Email, to, subject, content, isHtml))
+		auth, sender.Email, []string{to}, createEmailBody(sender, to, subject, content, isHtml))
 
 	return err
 }
@@ -75,7 +76,7 @@ func SendEmailWithTls(sender Sender, to string, subject string, content string, 
 		return err
 	}
 
-	_, err = w.Write(createEmailBody(sender.Email, to, subject, content, isHtml))
+	_, err = w.Write(createEmailBody(sender, to, subject, content, isHtml))
 	if err != nil {
 		return err
 	}
