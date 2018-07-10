@@ -22,7 +22,7 @@ func AESEncrypt(origData, key []byte) ([]byte, error) {
 	}
 	origData = _PKCS5Padding(origData, block.BlockSize())
 	// origData = ZeroPadding(origData, block.BlockSize())
-	blockMode := cipher.NewCBCEncrypter(block, key)
+	blockMode := cipher.NewCBCEncrypter(block, key[0:16])
 	crypted := make([]byte, len(origData))
 	// 根据CryptBlocks方法的说明，如下方式初始化crypted也可以
 	// crypted := origData
