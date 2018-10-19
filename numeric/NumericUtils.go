@@ -2,6 +2,7 @@ package numeric
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 	"math"
 	"strconv"
 )
@@ -71,6 +72,30 @@ func ToInt(v interface{}) int {
 	}
 }
 
+func ToInt64(v interface{}) (int64, error) {
+	if v == nil {
+		return 0, errors.New("nil")
+	}
+
+	switch v.(type) {
+	case float64:
+		return int64(v.(float64)), nil
+	default:
+		vv := ToString(v)
+
+		if vv == "" {
+			return 0, errors.New("to int64 error")
+		}
+
+		vvv, err := strconv.ParseInt(vv, 0, 64)
+		if err != nil {
+			return 0, err
+		}
+
+		return vvv, nil
+	}
+}
+
 func ToUint64(v interface{}) uint64 {
 	if v == nil {
 		return 0
@@ -82,9 +107,16 @@ func ToUint64(v interface{}) uint64 {
 	case float64:
 		return uint64(v.(float64))
 	case string:
-		uV, _ := strconv.ParseUint(v.(string), 10, 64)
+		uV, _ := strconv.ParseUint(v.(string), 0, 64)
 		return uV
 	default:
 		panic("to uint64 error.")
 	}
+}
+
+func ToString(v interface{}) string {
+	if v == nil {
+		return ""
+	}
+	return fmt.Sprint(v)
 }

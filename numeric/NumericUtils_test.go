@@ -21,3 +21,15 @@ func TestCeilToFixedDecimal(t *testing.T) {
 	t.Log(CeilToFixedDecimal(num, 3)) //print 1.035
 	t.Log(CeilToFixedDecimal(num, 0)) //print 2
 }
+
+func TestToInt64(t *testing.T) {
+	t.Log(ToInt64(12.1))
+	t.Log(ToInt64("0xaf"))
+}
+
+func TestToUint64(t *testing.T) {
+	t.Log(ToUint64(123))
+	t.Log(ToUint64(123.23))
+	t.Log(ToUint64("123"))
+	t.Log(ToUint64(0x123))
+}
